@@ -66,11 +66,14 @@ function writeFile(filename, data){
 }
 
 
+
 function init() {
 
     inquirer.prompt(defaultQuestion).then((answer) =>{
         if (answer.defaults){
             console.log("using: ", defaultJson);
+            let writeData = generator(defaultJson);
+            writeFile(DEFAULT_FILENAME, writeData);
             return;
         }
         inquirer.prompt(questions).then((answers) =>{
