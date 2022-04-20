@@ -46,7 +46,12 @@ function generateHTML(data){
           line-height: 130%;
           font-size: 1.2em;
           text-indent: 50px;
-      
+        }
+        .repo-list {
+
+        }
+        .repo-item {
+          
         }
         #contact-me {
           overflow: overlay;
@@ -63,9 +68,7 @@ function generateHTML(data){
           font-size: 2em;
         }
         .hr-full {
-          width: 95%;
-          float: left;
-          margin: 0 0 5px 0;
+          width: 100%;
         }
         #contact-ul {
           color: black;
@@ -80,6 +83,7 @@ function generateHTML(data){
           width: 80%;
           margin: 0px 10%;
           list-style: none;
+          padding: 0;
         }
         #contact-ul li {
           display: flex;
