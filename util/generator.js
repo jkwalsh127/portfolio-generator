@@ -1,7 +1,7 @@
 
 function generateHTML(data){
     const gitHubLink = `https://github.com/${data.gitHubURL}`
-    return layout `<!DOCTYPE html>
+    return `<!DOCTYPE html>
     <html lang="en-US">
     <head>
         <meta charset="UTF-8">

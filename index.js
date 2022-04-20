@@ -1,7 +1,9 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
-const defaultJson = require("defaults.json"); // default values to use for HTML generation
+const defaultJson = require("./defaults.json"); // default values to use for HTML generation
 const generator = require("./util/generator.js");
+
+const DEFAULT_FILENAME = "portfolio.html";
 
 /**
  * an array of questions to be sent to inquirer
@@ -40,26 +42,43 @@ const questions = [
     }
 ];
 
+/**
+ * This is the question given first to see if we want to use default values to
+ * make a portfolio
+ */
 const defaultQuestion = [{
     message: "Would you like to use the default values?",
     type:"confirm",
     name: "defaults"
 }];
 
-
+/**
+ * Writes the data we have to a file
+ * @param {string} filename - the name of the file to write
+ * @param {*} data - the string to write to the file
+ */
+function writeFile(filename, data){
+    console.log("Writing file...");
+    fs.writeFile(filename, data, (err) =>{
+        if (err) {throw err;}
+        console.log(`Successfully wrote to ${filename}`);
+    });
+}
 
 
 
 function init() {
 
-
     inquirer.prompt(defaultQuestion).then((answer) =>{
-        if (answer.confirm){
+        if (answer.defaults){
             console.log("using: ", defaultJson);
+            let writeData = generator(defaultJson);
+            writeFile(DEFAULT_FILENAME, writeData);
             return;
         }
         inquirer.prompt(questions).then((answers) =>{
-            console.log("answer", answers);
+            let writeData = generator(answers);
+            writeFile(DEFAULT_FILENAME, writeData);
         });
     });
 }
