@@ -32,8 +32,8 @@ const questions = [
         type:"input"
     },
     {
-        name: "githubURL",
-        message: "What is your github?",
+        name: "github",
+        message: "What is your github user name?",
         type:"input"
     },
     {
@@ -61,10 +61,11 @@ const defaultQuestion = [{
 async function writeFile(filename, answers){
     console.log("Writing file...");
     let gitHubURL = generateGitHubURL(answers);
-    let repos = await fetchRepos(gitHubURL);
+    answers.gitHubURL = gitHubURL;
+    let repos = await fetchRepos(answers.github);
     let writeData = generator({repos, ...answers});
 
-    fs.writeFile(filename, answers, (err) =>{
+    fs.writeFile(filename, writeData, (err) =>{
         if (err) {throw err;}
         console.log(`Successfully wrote to ${filename}`);
     });
@@ -76,16 +77,17 @@ async function writeFile(filename, answers){
  * @returns {object} the api's fetch
  */
 function fetchRepos (githubUserName){
-    axios.get(githubUserName).then((rep) => {
-        console.log(rep.data);
+    const queryUrl = `https://api.github.com/users/${githubUserName}/repos?per_page=100`;
+    axios.get(queryUrl).then((rep) => {
+        return rep.data;
     });
 }
 
 function generateGitHubURL(data) {
-    if (`${data.githubURL}`.includes("http")) {
-        return `${data.githubURL}`
+    if (`${data.github}`.includes("http")) {
+        return `${data.github}`;
     } else {
-        return `https://github.com/${data.gitHubURL}`
+        return `https://github.com/${data.github}`;
     };
 };
 
@@ -93,7 +95,6 @@ function init() {
 
     inquirer.prompt(defaultQuestion).then((answer) =>{
         if (answer.defaults){
-            console.log("using: ", defaultJson);
             writeFile(DEFAULT_FILENAME, defaultJson);
             return;
         }
