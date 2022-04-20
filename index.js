@@ -40,6 +40,10 @@ const questions = [
     }
 ];
 
+/**
+ * This is the question given first to see if we want to use default values to
+ * make a portfolio
+ */
 const defaultQuestion = [{
     message: "Would you like to use the default values?",
     type:"confirm",
@@ -47,11 +51,12 @@ const defaultQuestion = [{
 }];
 
 
-
+function writeFile(filename, data){
+    
+}
 
 
 function init() {
-
 
     inquirer.prompt(defaultQuestion).then((answer) =>{
         if (answer.confirm){
