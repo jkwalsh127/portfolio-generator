@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/jvbridge/portfolio-generator#readme",
   "dependencies": {
+    "axios": "^0.26.1",
     "inquirer": "^8.2.2"
   }
 }
