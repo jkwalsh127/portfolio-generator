@@ -72,24 +72,37 @@ async function writeFile(filename, answers){
 }
 
 /**
- * gets the appropriate information for the 
+ * Gets the appropriate information for the generator and returns it as an array
  * @param {string} githubUserName - the URL for the appropriate github username
- * @returns {object} the api's fetch
+ * @returns {object[]} - an array of objects for genertor() to use
  */
 function fetchRepos (githubUserName){
+    // URL to get the information about the user
     const queryUrl = `https://api.github.com/users/${githubUserName}/repos?per_page=100`;
+    // actual query
     axios.get(queryUrl).then((rep) => {
-        return rep.data;
+        // array to be given to the generator
+        ret = [];
+        // iterate over reply and push appropriate data
+        rep.data.forEach(repo => {
+            ret.push( {"name": repo.name, "url": repo.html_url});
+        });
+        return ret;
     });
 }
 
+/**
+ * Gets a github url from the user's answers
+ * @param {object} data - the answers given by the user
+ * @returns {string} a valid github URL based on the answer
+ */
 function generateGitHubURL(data) {
     if (`${data.github}`.includes("http")) {
         return `${data.github}`;
     } else {
         return `https://github.com/${data.github}`;
-    };
-};
+    }
+}
 
 function init() {
 
