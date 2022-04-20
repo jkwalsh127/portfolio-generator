@@ -2,6 +2,7 @@ const fs = require("fs");
 const inquirer = require("inquirer");
 const defaultJson = require("./defaults.json"); // default values to use for HTML generation
 const generator = require("./util/generator.js");
+const axios = require("axios");
 
 const DEFAULT_FILENAME = "portfolio.html";
 
@@ -31,8 +32,8 @@ const questions = [
         type:"input"
     },
     {
-        name: "githubURL",
-        message: "What is your github?",
+        name: "github",
+        message: "What is your github user name?",
         type:"input"
     },
     {
@@ -55,31 +56,59 @@ const defaultQuestion = [{
 /**
  * Writes the data we have to a file
  * @param {string} filename - the name of the file to write
- * @param {*} data - the string to write to the file
+ * @param {} answers - the answers the user gave us
  */
-function writeFile(filename, data){
+async function writeFile(filename, answers){
     console.log("Writing file...");
-    fs.writeFile(filename, data, (err) =>{
+    let gitHubURL = generateGitHubURL(answers);
+    answers.gitHubURL = gitHubURL;
+    let repos = await fetchRepos(answers.github);
+    let writeData = generator({repos, ...answers});
+
+    fs.writeFile(filename, writeData, (err) =>{
         if (err) {throw err;}
         console.log(`Successfully wrote to ${filename}`);
     });
 }
 
+/**
+ * Gets the appropriate information for the generator and returns it as an array
+ * @param {string} githubUserName - the URL for the appropriate github username
+ * @returns {object[]} - an array of objects for genertor() to use
+ */
+function fetchRepos (githubUserName){
+    // URL to get the information about the user
+    const queryUrl = `https://api.github.com/users/${githubUserName}/repos?per_page=100`;
+    // actual query
+    axios.get(queryUrl).then((rep) => {
+        // array to be given to the generator
+        ret = [];
+        // iterate over reply and push appropriate data
+        rep.data.forEach(repo => {
+            ret.push( {"name": repo.name, "url": repo.html_url});
+        });
+        return ret;
+    });
+}
+
+/**
+ * Gets a github url from the user's answers
+ * @param {object} data - the answers given by the user
+ * @returns {string} a valid github URL based on the answer
+ */
 function generateGitHubURL(data) {
-    if (`${data.githubURL}`.includes("http")) {
-        return `${data.githubURL}`
+    if (`${data.github}`.includes("http")) {
+        return `${data.github}`;
     } else {
-        return `https://github.com/${data.githubURL}`
-    };
-};
+        return `https://github.com/${data.github}`;
+    }
+}
 
 function init() {
 
     inquirer.prompt(defaultQuestion).then((answer) =>{
         if (answer.defaults){
-            console.log("using: ", defaultJson);
-            let writeData = generator(defaultJson);
-            writeFile(DEFAULT_FILENAME, writeData);
+            writeFile(DEFAULT_FILENAME, defaultJson);
             return;
         }
         inquirer.prompt(questions).then((answers) =>{
