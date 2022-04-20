@@ -55,7 +55,6 @@ function generateHTML(data){
         
     </body>
     </html>
-    
     `
     + data;
 }
