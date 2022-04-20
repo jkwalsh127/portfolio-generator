@@ -124,12 +124,12 @@ function generateHTML(data){
           <li><a href='mailto:${data.email}' target='_blank'>${data.email}</a></li>
           <li  class='contact-link'>
             <a href='${data.linkedInUrl}' target='_blank'>
-              <img class='social-logo' src='./assets/images/linkedin.png'>LinkedIn
+              <img class='social-logo' src='https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg'>LinkedIn
             </a>
           </li>                
           <li  class='contact-link'>
             <a href='${gitHubLink}' target='_blank'>
-              <img class='social-logo' src='./assets/images/github.png'>GitHub
+              <img class='social-logo' src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'>GitHub
             </a>
           </li>            
         </ul>
