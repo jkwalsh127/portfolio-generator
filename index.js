@@ -1,6 +1,7 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
 const defaultJson = require("defaults.json"); // default values to use for HTML generation
+const generator = require("./util/generator.js");
 
 /**
  * an array of questions to be sent to inquirer
