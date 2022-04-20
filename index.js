@@ -31,8 +31,16 @@ const questions = [
         name: "githubURL",
         message: "What is your github?",
         type:"input"
+    },
+    {
+        name: "email",
+        message: "what is your email?",
+        type:"input"
     }
 ];
+
+
+
 
 inquirer.prompt(questions).then((answers) =>{
     console.log("answer", answers);
