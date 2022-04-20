@@ -62,6 +62,7 @@ async function writeFile(filename, answers){
     console.log("Writing file...");
     let gitHubURL = generateGitHubURL(answers);
     answers.gitHubURL = gitHubURL;
+    console.log("fetching repos from URL: ", gitHubURL);
     let repos = await fetchRepos(answers.github);
     let writeData = generator({repos, ...answers});
 
@@ -76,17 +77,18 @@ async function writeFile(filename, answers){
  * @param {string} githubUserName - the URL for the appropriate github username
  * @returns {object[]} - an array of objects for genertor() to use
  */
-function fetchRepos (githubUserName){
+async function fetchRepos (githubUserName){
     // URL to get the information about the user
     const queryUrl = `https://api.github.com/users/${githubUserName}/repos?per_page=100`;
     // actual query
-    axios.get(queryUrl).then((rep) => {
+    return await axios.get(queryUrl).then((rep) => {
         // array to be given to the generator
         ret = [];
         // iterate over reply and push appropriate data
         rep.data.forEach(repo => {
             ret.push( {"name": repo.name, "url": repo.html_url});
         });
+        console.log("we have finished fetching");
         return ret;
     });
 }

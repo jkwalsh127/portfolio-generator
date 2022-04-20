@@ -1,5 +1,8 @@
 
 function generateHTML(data){
+    // get the html for the repos objects
+    const repoHTML = generateReposHTML(data.repos);    
+    
     return `<!DOCTYPE html>
     <html lang="en-US">
     <head>
@@ -108,10 +111,7 @@ function generateHTML(data){
         <h3 class='content-header'>My GitHub Repositories</h3>
         <hr>
         <ul id="repo-list">
-          <li id="'repo-item">first repo</li>
-          <li id="'repo-item">second repo</li>
-          <li id="'repo-item">third repo</li>
-          <li id="'repo-item">fourth repo</li>
+          ${repoHTML}
         </ul>
       </article>
     </section>
@@ -138,5 +138,20 @@ function generateHTML(data){
     </html>
     `;
 }
+
+/**
+ * 
+ * @param {repo[]} repos the array of relevant repo information
+ */
+function generateReposHTML(repos){
+    ret = "";
+    console.log(typeof repos);
+    repos.forEach(repo => {
+        ret = `${ret}<li class="repo-item"><a href="${repo.url}">${repo.name}</a></li>\n`;
+    });
+    return ret;
+}
+
+
 
 module.exports = generateHTML;
