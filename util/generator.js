@@ -155,7 +155,4 @@ function generateReposHTML(repos){
     });
     return ret;
 }
-
-
-
 module.exports = generateHTML;
