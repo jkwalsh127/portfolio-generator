@@ -1,0 +1,20 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Mac specific 
+.DS_Store
+.Trashes
+
+# The generated file
+portfolio.html
+
+# a folder to hold notes and things I only want to have temporarily
+ignore/
