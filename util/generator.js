@@ -43,7 +43,12 @@ function generateHTML(data){
           line-height: 130%;
           font-size: 1.2em;
           text-indent: 50px;
-      
+        }
+        .repo-list {
+
+        }
+        .repo-item {
+          
         }
         #contact-me {
           overflow: overlay;
@@ -60,9 +65,7 @@ function generateHTML(data){
           font-size: 2em;
         }
         .hr-full {
-          width: 95%;
-          float: left;
-          margin: 0 0 5px 0;
+          width: 100%;
         }
         #contact-ul {
           color: black;
@@ -77,6 +80,7 @@ function generateHTML(data){
           width: 80%;
           margin: 0px 10%;
           list-style: none;
+          padding: 0;
         }
         #contact-ul li {
           display: flex;
@@ -108,10 +112,7 @@ function generateHTML(data){
         <h3 class='content-header'>My GitHub Repositories</h3>
         <hr>
         <ul id="repo-list">
-          <li id="'repo-item">first repo</li>
-          <li id="'repo-item">second repo</li>
-          <li id="'repo-item">third repo</li>
-          <li id="'repo-item">fourth repo</li>
+
         </ul>
       </article>
     </section>
