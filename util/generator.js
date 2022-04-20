@@ -122,7 +122,7 @@ function generateHTML(data){
         <ul id='contact-ul'>
           <li><a href='mailto:${data.email}' target='_blank'>${data.email}</a></li>
           <li  class='contact-link'>
-            <a href='${data.linkedInUrl}' target='_blank'>
+            <a href='${data.linkedInURL}' target='_blank'>
               <img class='social-logo' src='https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg'>LinkedIn
             </a>
           </li>                
@@ -136,8 +136,7 @@ function generateHTML(data){
         
     </body>
     </html>
-    `
-    + data;
+    `;
 }
 
 module.exports = generateHTML;
