@@ -2,6 +2,7 @@ const fs = require("fs");
 const inquirer = require("inquirer");
 const defaultJson = require("./defaults.json"); // default values to use for HTML generation
 const generator = require("./util/generator.js");
+const axios = require("axios");
 
 const DEFAULT_FILENAME = "portfolio.html";
 
@@ -55,17 +56,28 @@ const defaultQuestion = [{
 /**
  * Writes the data we have to a file
  * @param {string} filename - the name of the file to write
- * @param {*} data - the string to write to the file
+ * @param {} answers - the answers the user gave us
  */
-function writeFile(filename, data){
+async function writeFile(filename, answers){
     console.log("Writing file...");
-    fs.writeFile(filename, data, (err) =>{
+    
+
+    fs.writeFile(filename, answers, (err) =>{
         if (err) {throw err;}
         console.log(`Successfully wrote to ${filename}`);
     });
 }
 
-
+/**
+ * gets the appropriate information for the 
+ * @param {string} githubUserName - the URL for the appropriate github username
+ * @returns {object} the api's fetch
+ */
+async function fetchRepos (githubUserName){
+    axios.get(githubUserName).then((rep) => {
+        console.log(rep.data);
+    });
+}
 
 function init() {
 
