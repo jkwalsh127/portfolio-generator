@@ -65,7 +65,13 @@ function writeFile(filename, data){
     });
 }
 
-
+function generateGitHubURL(data) {
+    if (`${data.githubURL}`.includes("http")) {
+        return `${data.githubURL}`
+    } else {
+        return `https://github.com/${data.gitHubURL}`
+    };
+};
 
 function init() {
 
