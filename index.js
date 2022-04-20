@@ -28,7 +28,7 @@ const questions = [
     },
     {
         name: "linkedInURL",
-        message: "What is your linked in?",
+        message: "What is your linked in URL?",
         type:"input"
     },
     {
@@ -59,13 +59,19 @@ const defaultQuestion = [{
  * @param {} answers - the answers the user gave us
  */
 async function writeFile(filename, answers){
-    console.log("Writing file...");
+    // format the URL
     let gitHubURL = generateGitHubURL(answers);
     answers.gitHubURL = gitHubURL;
+
+    // fetch the repos
     console.log("fetching repos from URL: ", gitHubURL);
     let repos = await fetchRepos(answers.github);
-    let writeData = generator({repos, ...answers});
 
+    // get the information to write to the file
+    let writeData = generator({repos, ...answers});
+    console.log("Writing file...");
+
+    // use fs to make a new file
     fs.writeFile(filename, writeData, (err) =>{
         if (err) {throw err;}
         console.log(`Successfully wrote to ${filename}`);
@@ -114,8 +120,7 @@ function init() {
             return;
         }
         inquirer.prompt(questions).then((answers) =>{
-            let writeData = generator(answers);
-            writeFile(DEFAULT_FILENAME, writeData);
+            writeFile(DEFAULT_FILENAME, answers);
         });
     });
 }
