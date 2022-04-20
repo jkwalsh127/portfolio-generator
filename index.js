@@ -69,7 +69,7 @@ function generateGitHubURL(data) {
     if (`${data.githubURL}`.includes("http")) {
         return `${data.githubURL}`
     } else {
-        return `https://github.com/${data.gitHubURL}`
+        return `https://github.com/${data.githubURL}`
     };
 };
 
