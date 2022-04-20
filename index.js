@@ -2,6 +2,7 @@ const fs = require("fs");
 const inquirer = require("inquirer");
 const defaultJson = require("./defaults.json"); // default values to use for HTML generation
 const generator = require("./util/generator.js");
+const axios = require("axios");
 
 const DEFAULT_FILENAME = "portfolio.html";
 
@@ -31,8 +32,8 @@ const questions = [
         type:"input"
     },
     {
-        name: "githubURL",
-        message: "What is your github?",
+        name: "github",
+        message: "What is your github user name?",
         type:"input"
     },
     {
@@ -55,21 +56,38 @@ const defaultQuestion = [{
 /**
  * Writes the data we have to a file
  * @param {string} filename - the name of the file to write
- * @param {*} data - the string to write to the file
+ * @param {} answers - the answers the user gave us
  */
-function writeFile(filename, data){
+async function writeFile(filename, answers){
     console.log("Writing file...");
-    fs.writeFile(filename, data, (err) =>{
+    let gitHubURL = generateGitHubURL(answers);
+    answers.gitHubURL = gitHubURL;
+    let repos = await fetchRepos(answers.github);
+    let writeData = generator({repos, ...answers});
+
+    fs.writeFile(filename, writeData, (err) =>{
         if (err) {throw err;}
         console.log(`Successfully wrote to ${filename}`);
     });
 }
 
+/**
+ * gets the appropriate information for the 
+ * @param {string} githubUserName - the URL for the appropriate github username
+ * @returns {object} the api's fetch
+ */
+function fetchRepos (githubUserName){
+    const queryUrl = `https://api.github.com/users/${githubUserName}/repos?per_page=100`;
+    axios.get(queryUrl).then((rep) => {
+        return rep.data;
+    });
+}
+
 function generateGitHubURL(data) {
-    if (`${data.githubURL}`.includes("http")) {
-        return `${data.githubURL}`
+    if (`${data.github}`.includes("http")) {
+        return `${data.github}`;
     } else {
-        return `https://github.com/${data.githubURL}`
+        return `https://github.com/${data.github}`;
     };
 };
 
@@ -77,9 +95,7 @@ function init() {
 
     inquirer.prompt(defaultQuestion).then((answer) =>{
         if (answer.defaults){
-            console.log("using: ", defaultJson);
-            let writeData = generator(defaultJson);
-            writeFile(DEFAULT_FILENAME, writeData);
+            writeFile(DEFAULT_FILENAME, defaultJson);
             return;
         }
         inquirer.prompt(questions).then((answers) =>{

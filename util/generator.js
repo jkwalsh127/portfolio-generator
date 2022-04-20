@@ -1,6 +1,5 @@
 
 function generateHTML(data){
-    const gitHubLink = `https://github.com/${data.gitHubURL}`
     return `<!DOCTYPE html>
     <html lang="en-US">
     <head>
@@ -128,7 +127,7 @@ function generateHTML(data){
             </a>
           </li>                
           <li  class='contact-link'>
-            <a href='${gitHubLink}' target='_blank'>
+            <a href='${data.gitHubURL}' target='_blank'>
               <img class='social-logo' src='https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png'>GitHub
             </a>
           </li>            
