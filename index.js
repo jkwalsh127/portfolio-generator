@@ -60,7 +60,9 @@ const defaultQuestion = [{
  */
 async function writeFile(filename, answers){
     console.log("Writing file...");
-    
+    let gitHubURL = generateGitHubURL(answers);
+    let repos = await fetchRepos(gitHubURL);
+    let writeData = generator({repos, ...answers});
 
     fs.writeFile(filename, answers, (err) =>{
         if (err) {throw err;}
@@ -73,19 +75,26 @@ async function writeFile(filename, answers){
  * @param {string} githubUserName - the URL for the appropriate github username
  * @returns {object} the api's fetch
  */
-async function fetchRepos (githubUserName){
+function fetchRepos (githubUserName){
     axios.get(githubUserName).then((rep) => {
         console.log(rep.data);
     });
 }
+
+function generateGitHubURL(data) {
+    if (`${data.githubURL}`.includes("http")) {
+        return `${data.githubURL}`
+    } else {
+        return `https://github.com/${data.gitHubURL}`
+    };
+};
 
 function init() {
 
     inquirer.prompt(defaultQuestion).then((answer) =>{
         if (answer.defaults){
             console.log("using: ", defaultJson);
-            let writeData = generator(defaultJson);
-            writeFile(DEFAULT_FILENAME, writeData);
+            writeFile(DEFAULT_FILENAME, defaultJson);
             return;
         }
         inquirer.prompt(questions).then((answers) =>{
