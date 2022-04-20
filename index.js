@@ -39,9 +39,28 @@ const questions = [
     }
 ];
 
+const defaultQuestion = [{
+    message: "Would you like to use the default values?",
+    type:"confirm",
+    name: "defaults"
+}];
 
 
 
-inquirer.prompt(questions).then((answers) =>{
-    console.log("answer", answers);
-});
+
+
+function init() {
+
+
+    inquirer.prompt(defaultQuestion).then((answer) =>{
+        if (answer.confirm){
+            console.log("using: ", defaultJson);
+            return;
+        }
+        inquirer.prompt(questions).then((answers) =>{
+            console.log("answer", answers);
+        });
+    });
+}
+
+init();
