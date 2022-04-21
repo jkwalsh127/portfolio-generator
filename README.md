@@ -1,4 +1,4 @@
-# timed-javascript-quiz-app
+# Portfolio Generator
 
 |   Languages   | Used      |  Node Modules   | Used      |   runtime   | Used      |
 | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
@@ -9,15 +9,15 @@
 
 ## Usage
 
-Click <a href="https://jkwalsh127.github.io/timed-javascript-quiz-app/">**here**</a> to check out the deployed quiz!
+Clone the repository, run the command 'npm install' to install the necessary node modules, run the command 'node index.js' to initiate the prompts, answer them as you see fit, and at the end an html file called 'portfolio.html' will be generated for you.
 
 ## Description
 
 This project uses the power of node.js to generate a portfolio page for a user based on a series of simple prompts. The page will display the user's name, their location, a bio section, a list of their github repositories along with links to each, aswell as a list of contact links that will allow visitors to write them an email and checkout their linkedIn and GitHub profiles. 
 
 
-### Application demonstration
-![gif demonstration of the quiz](./assets/images/timed-javascript-web-app-readme-gif.gif)
+### Example generated page
+![image of an example generated page](./assets/images/example.png)
 
 
 ### Collaborators
